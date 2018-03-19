@@ -1,20 +1,30 @@
 
 import * as vscode from 'vscode';
+
 import { SCHEME } from './extension';
+import { Renderer } from './renderer';
+
+import { View } from './assets/view';
+import { Style } from './assets/style';
+
+
+export interface IDependency {
+  name: string,
+  version: string,
+}
 
 export class Manager implements vscode.TextDocumentContentProvider {
 
   private _onDidChange = new vscode.EventEmitter<vscode.Uri>();
-  private _singleManagerSouceUri: vscode.Uri;
+  private _singleManagerSourceUri: vscode.Uri;
 
   constructor(
     private context: vscode.ExtensionContext,
   ) {
-
   }
 
   public provideTextDocumentContent(managerUri: vscode.Uri): string | Thenable<string> {
-    const sourceUri = this._singleManagerSouceUri;
+    const sourceUri = this._singleManagerSourceUri;
 
     // console.log('open manager for source: ' + sourceUri.toString())
     let initialLine: number;
@@ -24,8 +34,16 @@ export class Manager implements vscode.TextDocumentContentProvider {
     }
 
     return vscode.workspace.openTextDocument(sourceUri).then(document => {
-      const text = `<input value="test"/><code style="color: green"><pre>${document.getText()}</pre></code>`;
-      return text;
+      const metadata = JSON.parse(document.getText());
+      let html = View;
+      const headIndex = html.indexOf('</head>');
+      html = html.slice(0, headIndex) + `<style>${Style}</style>` + html.slice(headIndex);
+      const bodyIndex = html.indexOf('</body>');
+      for (const dependency in metadata.devDependencies) {
+        const version = metadata.devDependencies[dependency];
+        html = html.slice(0, bodyIndex) + Renderer.Dependency({ name: dependency, version: version }) + html.slice(bodyIndex);
+      }
+      return html;
     });
   }
 
@@ -53,7 +71,7 @@ export class Manager implements vscode.TextDocumentContentProvider {
       scheme: SCHEME,
       path: 'single-preview.rendered',
     });
-    this._singleManagerSouceUri = uri;
+    this._singleManagerSourceUri = uri;
     return managerUri;
   }
 

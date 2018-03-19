@@ -7,5 +7,10 @@
     "out": true // set this to false to include "out" folder in search results
   },
   "tslint.autoFixOnSave": true,
-  "typescript.tsdk": "node_modules/typescript/lib"
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "files.associations": {
+    "view.ts": "html",
+    "style.ts": "css"
+  },
+  "css.validate": false,
 }

@@ -11,7 +11,8 @@
     "class-name": true,
     "semicolon": [
       true,
-      "always"
+      "always",
+      "ignore-interfaces"
     ],
     "triple-equals": true
   },
