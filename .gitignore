@@ -1,4 +1,5 @@
-out
+.cache-loader
+dist
 node_modules
 .vscode-test/
 *.vsix

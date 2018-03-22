@@ -1,16 +1,18 @@
 // Place your settings in this file to overwrite default and user settings.
 {
   "files.exclude": {
-    "out": false // set this to true to hide the "out" folder with the compiled JS files
+    "dist": false // set this to true to hide the "out" folder with the compiled JS files
   },
   "search.exclude": {
-    "out": true // set this to false to include "out" folder in search results
+    "dist": true // set this to false to include "out" folder in search results
   },
   "tslint.autoFixOnSave": true,
   "typescript.tsdk": "node_modules/typescript/lib",
-  "files.associations": {
-    "view.ts": "html",
-    "style.ts": "css"
-  },
-  "css.validate": false,
+  "files.insertFinalNewline": true,
+  "tslint.enable": true,
+  "tslint.configFile": ".config/tslint.config.js",
+  "typescript.format.insertSpaceAfterFunctionKeywordForAnonymousFunctions": true,
+  "docthis.includeMemberOfOnInterfaceMembers": false,
+  "docthis.includeMemberOfOnClassMembers": false,
+  "html.format.wrapAttributes": "force",
 }

@@ -4,9 +4,8 @@ import * as vscode from 'vscode';
 import { SCHEME } from './extension';
 import { Renderer } from './renderer';
 
-import { View } from './assets/view';
 import { Style } from './assets/style';
-
+import { View } from './assets/view';
 
 export interface IDependency {
   name: string,

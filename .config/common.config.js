@@ -1,11 +1,26 @@
 const path = require('path');
 
+/* PLUGINS */
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+
 /* CONSTANTS */
 const CPUS = require('os').cpus().length;
 const SOURCE_DIR = path.resolve(process.cwd(), 'src');
 const CONFIG_DIR = path.resolve(process.cwd(), '.config');
 
 module.exports = {
+  context: SOURCE_DIR,
+
+  entry: './extension.ts',
+
+  externals: {
+    vscode: 'vscode',
+  },
+
+  resolve: {
+    extensions: [".js", ".ts"],
+  },
+
   module: {
     rules: [
       {
@@ -26,17 +41,31 @@ module.exports = {
               happyPackMode: true,
             },
           },
-          'angular2-template-loader',
         ],
       },
+      {
+        test: /\.hbs$/,
+        loader: 'handlebars-loader',
+      },
+      {
+        test: /\.css$/,
+        loader: [
+          'to-string-loader',
+          'css-loader',
+        ],
+      }
     ],
   },
 
   plugins: [
     new ForkTsCheckerWebpackPlugin({
-      tsconfig: path.join(SOURCE_DIR, 'tsconfig.app.json'),
+      tsconfig: path.join(process.cwd(), 'tsconfig.json'),
       tslint: path.join(CONFIG_DIR, 'tslint.config.js'),
       checkSyntacticErrors: true,
     }),
   ],
+
+  node: {
+    fs: 'empty' // avoids error messages
+  },
 };

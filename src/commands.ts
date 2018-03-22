@@ -23,7 +23,7 @@ export class Commands {
       'vscode.previewHtml',
       managerUri,
       vscode.ViewColumn.Two,
-      'NPM GUI Manager'
+      'NPM GUI Manager',
     ).then((success) => {
     }, (reason) => {
       vscode.window.showErrorMessage(reason);
@@ -32,7 +32,7 @@ export class Commands {
 
   public get list(): vscode.Disposable[] {
     return [
-      vscode.commands.registerCommand(`${SCHEME}.openManager`, this.openManager.bind(this))
+      vscode.commands.registerCommand(`${SCHEME}.openManager`, this.openManager.bind(this)),
     ];
   }
 }
