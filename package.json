@@ -23,7 +23,7 @@
     ]
   },
   "scripts": {
-    "vscode:prepublish": "npm run compile",
+    "vscode:prepublish": "npm run compile:dist",
     "compile": "webpack --config .config/common.config.js --mode development",
     "compile:dist": "webpack --config .config/common.config.js --mode production",
     "watch": "webpack --config .config/common.config.js --mode development --watch",

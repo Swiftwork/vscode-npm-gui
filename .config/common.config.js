@@ -63,6 +63,15 @@ module.exports = {
       tslint: path.join(CONFIG_DIR, 'tslint.config.js'),
       checkSyntacticErrors: true,
     }),
+    {
+      apply: function (compiler) {
+        const start = () => process.stdout.write(`${new Date().toLocaleTimeString('en-US')} - File change detected. Starting incremental compilation...\n`);
+        const end = () => process.stdout.write(`${new Date().toLocaleTimeString('en-US')} - Compilation complete. Watching for file changes.\n`);
+        compiler.hooks.watchRun.tap('VSCodeTask', start);
+        compiler.hooks.done.tap('VSCodeTask', end);
+        compiler.hooks.invalid.tap('VSCodeTask', end);
+      },
+    }
   ],
 
   node: {
