@@ -17,6 +17,8 @@ module.exports = {
     vscode: 'vscode',
   },
 
+  target: 'node',
+
   resolve: {
     extensions: [".js", ".ts"],
   },
