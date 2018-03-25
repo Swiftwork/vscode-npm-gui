@@ -3,7 +3,6 @@
     "module": "commonjs",
     "target": "es2015",
     "experimentalDecorators": true,
-    "outDir": "out",
     "lib": [
       "es2015"
     ],
@@ -13,9 +12,18 @@
     //"strict": true, /* enable all strict type-checking options */
     /* Additional Checks */
     "noImplicitReturns": true, /* Report error when not all code paths in function return a value. */
-    "noFallthroughCasesInSwitch": true /* Report errors for fallthrough cases in switch statement. */
+    "noFallthroughCasesInSwitch": true, /* Report errors for fallthrough cases in switch statement. */
     //"noUnusedLocals": true, /* Report errors on unused locals. */
     //"noUnusedParameters": true /* Report errors on unused parameters. */
+    "typeRoots": [
+      "node_modules/@types",
+      "vscode"
+    ],
+    "types": [
+      "vscode",
+      "node",
+      "mocha",
+    ]
   },
   "exclude": [
     "node_modules",
