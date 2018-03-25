@@ -14,11 +14,13 @@ module.exports = {
   entry: './extension.ts',
 
   externals: {
-    vscode: 'vscode',
+    vscode: {
+      commonjs2: 'vscode',
+    }
   },
 
   resolve: {
-    extensions: [".js", ".ts"],
+    extensions: ['.js', '.ts'],
   },
 
   module: {
