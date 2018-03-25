@@ -13,13 +13,15 @@ module.exports = {
 
   entry: './extension.ts',
 
+  output: {
+    libraryTarget: 'commonjs2'
+  },
+
   externals: {
     vscode: {
       commonjs2: 'vscode',
     }
   },
-
-  target: 'node',
 
   resolve: {
     extensions: ['.js', '.ts'],
@@ -77,8 +79,4 @@ module.exports = {
       },
     }
   ],
-
-  node: {
-    fs: 'empty' // avoids error messages
-  },
 };
