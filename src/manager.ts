@@ -4,8 +4,8 @@ import * as vscode from 'vscode';
 import { SCHEME } from './extension';
 import { Renderer } from './renderer';
 
-import { Style } from './assets/style';
-import { View } from './assets/view';
+import Style from './assets/style.css';
+import View from './assets/view.hbs';
 
 export interface IDependency {
   name: string,
@@ -34,7 +34,8 @@ export class Manager implements vscode.TextDocumentContentProvider {
 
     return vscode.workspace.openTextDocument(sourceUri).then(document => {
       const metadata = JSON.parse(document.getText());
-      let html = View;
+      console.log(View);
+      let html = View();
       const headIndex = html.indexOf('</head>');
       html = html.slice(0, headIndex) + `<style>${Style}</style>` + html.slice(headIndex);
       const bodyIndex = html.indexOf('</body>');

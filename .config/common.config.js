@@ -2,6 +2,7 @@ const path = require('path');
 
 /* PLUGINS */
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const { SourceMapDevToolPlugin } = require('webpack');
 
 /* CONSTANTS */
 const CPUS = require('os').cpus().length;
@@ -79,4 +80,6 @@ module.exports = {
       },
     }
   ],
+
+  devtool: 'source-map',
 };

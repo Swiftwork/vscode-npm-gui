@@ -11,12 +11,15 @@
       "request": "launch",
       "runtimeExecutable": "${execPath}",
       "args": [
+        "--disable-extensions",
         "--extensionDevelopmentPath=${workspaceFolder}"
       ],
       "outFiles": [
-        "${workspaceFolder}/dist/**/*.js"
+        "${workspaceFolder}/dist/main.js"
       ],
-      "preLaunchTask": "npm: watch"
+      "preLaunchTask": "npm: watch",
+      "sourceMaps": true,
+      "trace": "verbose"
     },
     {
       "name": "Extension Tests",
