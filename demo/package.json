@@ -5,35 +5,51 @@
   "version": "0.0.1",
   "publisher": "swiftwork",
   "engines": {
-    "vscode": "^1.21.0"
+    "vscode": "^1.10.0"
   },
   "categories": [
     "Other"
   ],
   "activationEvents": [
-    "onCommand:extension.sayHello"
+    "onCommand:npm-gui.openManager"
   ],
   "main": "./dist/main.js",
   "contributes": {
     "commands": [
       {
-        "command": "extension.sayHello",
-        "title": "Hello World"
+        "command": "npm-gui.openManager",
+        "title": "NPM GUI: Open manager pane"
       }
     ]
   },
   "scripts": {
-    "vscode:prepublish": "npm run compile",
-    "compile": "tsc -p ./",
-    "watch": "tsc -watch -p ./",
+    "vscode:prepublish": "npm run compile:dist",
+    "compile": "webpack --config .config/common.config.js --mode development",
+    "compile:dist": "webpack --config .config/common.config.js --mode production",
+    "watch": "webpack --config .config/common.config.js --mode development --watch",
     "postinstall": "node ./node_modules/vscode/bin/install",
     "test": "npm run compile && node ./node_modules/vscode/bin/test"
   },
+  "dependencies": {
+    "npm-check-updates": "^2.14.1",
+    "vscode": "^1.1.13",
+    "webpack-node-externals": "^1.6.0"
+  },
   "devDependencies": {
-    "typescript": "^2.6.1",
-    "vscode": "^1.1.6",
-    "tslint": "^5.8.0",
-    "@types/node": "^7.0.43",
-    "@types/mocha": "^2.2.42"
+    "@types/mocha": "^2.2.48",
+    "@types/node": "^9.4.7",
+    "cache-loader": "^1.2.2",
+    "css-loader": "^0.28.11",
+    "fork-ts-checker-webpack-plugin": "^0.4.1",
+    "handlebars": "^4.0.11",
+    "handlebars-loader": "^1.7.0",
+    "thread-loader": "^1.1.5",
+    "to-string-loader": "^1.1.5",
+    "ts-loader": "^4.1.0",
+    "tslint": "^5.9.1",
+    "tslint-config-standard": "^7.0.0",
+    "typescript": "^2.7.2",
+    "webpack": "^4.2.0",
+    "webpack-cli": "^2.0.13"
   }
 }

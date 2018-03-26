@@ -18,8 +18,7 @@
         "${workspaceFolder}/dist/main.js"
       ],
       "preLaunchTask": "npm: watch",
-      "sourceMaps": true,
-      "trace": "verbose"
+      "sourceMaps": true
     },
     {
       "name": "Extension Tests",

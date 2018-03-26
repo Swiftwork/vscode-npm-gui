@@ -19,8 +19,11 @@ module.exports = {
   },
 
   externals: {
-    vscode: {
+    'vscode': {
       commonjs2: 'vscode',
+    },
+    'npm-check-updates': {
+      commonjs2: 'npm-check-updates',
     }
   },
 

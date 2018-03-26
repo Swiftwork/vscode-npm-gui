@@ -1,12 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
+<h3>Dependencies</h3>
+{{#each dependencies as |version name|}}
+<li class="dependency">{{name}}
+  <span class="version">{{version}}</span>
+</li>
+{{/each}}
 
-<head>
-  <title>Test HTML</title>
-</head>
+<hr />
 
-<body>
-
-</body>
-
-</html>
+<h3>Development dependencies</h3>
+{{#each devDependencies as |version name|}}
+<li class="dependency">{{name}}
+  <span class="version">{{version}}</span>
+</li>
+{{/each}}

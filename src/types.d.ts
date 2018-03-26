@@ -1,9 +1,9 @@
 declare module "*.css" {
   const style: string;
-  export default style;
+  export = style;
 }
 
 declare module "*.hbs" {
   const template: (context?: object) => string;
-  export default template;
+  export = template;
 }

@@ -1,11 +1,12 @@
 
+import * as ncu from 'npm-check-updates';
 import * as vscode from 'vscode';
 
 import { SCHEME } from './extension';
 import { Renderer } from './renderer';
 
-import Style from './assets/style.css';
-import View from './assets/view.hbs';
+import * as Style from './assets/style.css';
+import * as View from './assets/view.hbs';
 
 export interface IDependency {
   name: string,
@@ -33,17 +34,16 @@ export class Manager implements vscode.TextDocumentContentProvider {
     }
 
     return vscode.workspace.openTextDocument(sourceUri).then(document => {
-      const metadata = JSON.parse(document.getText());
-      console.log(View);
-      let html = View();
-      const headIndex = html.indexOf('</head>');
-      html = html.slice(0, headIndex) + `<style>${Style}</style>` + html.slice(headIndex);
-      const bodyIndex = html.indexOf('</body>');
-      for (const dependency in metadata.devDependencies) {
-        const version = metadata.devDependencies[dependency];
-        html = html.slice(0, bodyIndex) + Renderer.Dependency({ name: dependency, version: version }) + html.slice(bodyIndex);
-      }
-      return html;
+      const contents = document.getText();
+      const metadata = JSON.parse(contents);
+      ncu.run({
+        packageData: contents,
+      }).then((upgraded) => {
+        console.log(upgraded);
+      }).catch((err) => {
+        console.error(err);
+      });
+      return `<style>${Style}</style>\n${View(metadata)}`;
     });
   }
 
