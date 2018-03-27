@@ -28,7 +28,7 @@ module.exports = {
   },
 
   resolve: {
-    extensions: ['.js', '.ts'],
+    extensions: ['.ts'],
   },
 
   module: {
@@ -54,8 +54,10 @@ module.exports = {
         ],
       },
       {
-        test: /\.hbs$/,
-        loader: 'handlebars-loader',
+        test: /\.js$/,
+        loader: [
+          'to-string-loader',
+        ],
       },
       {
         test: /\.css$/,
@@ -63,7 +65,11 @@ module.exports = {
           'to-string-loader',
           'css-loader',
         ],
-      }
+      },
+      {
+        test: /\.hbs$/,
+        loader: 'handlebars-loader',
+      },
     ],
   },
 

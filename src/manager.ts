@@ -3,10 +3,10 @@ import * as ncu from 'npm-check-updates';
 import * as vscode from 'vscode';
 
 import { SCHEME } from './extension';
-import { Renderer } from './renderer';
 
-import * as Style from './assets/style.css';
-import * as View from './assets/view.hbs';
+import * as Script from './pane/script.css';
+import * as Style from './pane/style.css';
+import * as View from './pane/view.hbs';
 
 export interface IDependency {
   name: string,
