@@ -55,12 +55,14 @@ module.exports = {
       },
       {
         test: /\.js$/,
+        include: [path.join(SOURCE_DIR, 'pane')],
         loader: [
           'to-string-loader',
         ],
       },
       {
         test: /\.css$/,
+        include: [path.join(SOURCE_DIR, 'pane')],
         loader: [
           'to-string-loader',
           'css-loader',
@@ -68,6 +70,7 @@ module.exports = {
       },
       {
         test: /\.hbs$/,
+        include: [path.join(SOURCE_DIR, 'pane')],
         loader: 'handlebars-loader',
       },
     ],
