@@ -8,11 +8,6 @@ import * as Script from './pane/script.css';
 import * as Style from './pane/style.css';
 import * as View from './pane/view.hbs';
 
-export interface IDependency {
-  name: string,
-  version: string,
-}
-
 export class Manager implements vscode.TextDocumentContentProvider {
 
   private _onDidChange = new vscode.EventEmitter<vscode.Uri>();

@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 
 import { SCHEME } from './extension';
-
+import { DependencyType } from './interfaces';
 import { Manager } from './manager';
 
 export class Commands {
@@ -10,6 +10,8 @@ export class Commands {
     private manager: Manager,
   ) {
   }
+
+  /* OPEN MANAGER PANE */
 
   public openManager(uri?: vscode.Uri) {
     let resource = uri;
@@ -30,9 +32,30 @@ export class Commands {
     });
   }
 
+  //------------------------------------------------------------------------------------
+  // DEPENDENCIES
+  //------------------------------------------------------------------------------------
+
+  public updateDependency() {
+
+  }
+
+  public updateAllDependencies() {
+
+  }
+
+  public switchDependencyType(name: string, type: DependencyType) {
+
+  }
+
+  //------------------------------------------------------------------------------------
+  // GETTERS
+  //------------------------------------------------------------------------------------
+
   public get list(): vscode.Disposable[] {
     return [
       vscode.commands.registerCommand(`${SCHEME}.openManager`, this.openManager.bind(this)),
+      vscode.commands.registerCommand(`${SCHEME}.updateDependency`, this.updateDependency.bind(this)),
     ];
   }
 }
