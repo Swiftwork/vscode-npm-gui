@@ -15,7 +15,8 @@ module.exports = {
   entry: './extension.ts',
 
   output: {
-    libraryTarget: 'commonjs2'
+    publicPath: 'dist/',
+    libraryTarget: 'commonjs2',
   },
 
   externals: {
@@ -54,24 +55,19 @@ module.exports = {
         ],
       },
       {
-        test: /\.js$/,
-        include: [path.join(SOURCE_DIR, 'pane')],
-        loader: [
-          'to-string-loader',
-        ],
-      },
-      {
-        test: /\.css$/,
-        include: [path.join(SOURCE_DIR, 'pane')],
-        loader: [
-          'to-string-loader',
-          'css-loader',
-        ],
-      },
-      {
         test: /\.hbs$/,
+        use: [
+          {
+            loader: 'handlebars-loader',
+            // options: { inlineRequires: /a^/ } // Match nothing
+          },
+        ],
+      },
+      {
+        test: /\.(js|css)$/,
         include: [path.join(SOURCE_DIR, 'pane')],
-        loader: 'handlebars-loader',
+        loader: 'file-loader',
+        type: 'javascript/auto',
       },
     ],
   },

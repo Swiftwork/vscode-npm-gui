@@ -4,7 +4,7 @@ import * as vscode from 'vscode';
 
 import { SCHEME } from './extension';
 
-import * as Script from './pane/script.css';
+import * as Script from './pane/script.js';
 import * as Style from './pane/style.css';
 import * as View from './pane/view.hbs';
 
@@ -38,7 +38,11 @@ export class Manager implements vscode.TextDocumentContentProvider {
       }).catch((err) => {
         console.error(err);
       });
-      return `<style>${Style}</style>\n${View(metadata)}`;
+      return View({
+        script: this.context.asAbsolutePath(Script),
+        style: this.context.asAbsolutePath(Style),
+        package: metadata,
+      });
     });
   }
 

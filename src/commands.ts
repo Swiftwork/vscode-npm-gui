@@ -37,7 +37,7 @@ export class Commands {
   //------------------------------------------------------------------------------------
 
   public updateDependency() {
-
+    console.log('update');
   }
 
   public updateAllDependencies() {

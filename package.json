@@ -24,8 +24,8 @@
   },
   "scripts": {
     "vscode:prepublish": "npm run compile:dist",
-    "compile": "webpack --config .config/common.config.js --mode development",
-    "compile:dist": "webpack --config .config/common.config.js --mode production",
+    "compile": "rimraf dist && webpack --config .config/common.config.js --mode development",
+    "compile:dist": "rimraf dist && webpack --config .config/common.config.js --mode production",
     "watch": "webpack --config .config/common.config.js --mode development --watch",
     "postinstall": "node ./node_modules/vscode/bin/install",
     "test": "npm run compile && node ./node_modules/vscode/bin/test"
@@ -40,6 +40,7 @@
     "@types/node": "^9.4.7",
     "cache-loader": "^1.2.2",
     "css-loader": "^0.28.11",
+    "file-loader": "^1.1.11",
     "fork-ts-checker-webpack-plugin": "^0.4.1",
     "handlebars": "^4.0.11",
     "handlebars-loader": "^1.7.0",

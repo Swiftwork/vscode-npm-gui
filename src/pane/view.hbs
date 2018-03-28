@@ -1,15 +1,33 @@
-<h3>Dependencies</h3>
-{{#each dependencies as |version name|}}
-<li class="dependency">{{name}}
-  <span class="version">{{version}}</span>
-</li>
-{{/each}}
+<!DOCTYPE html>
+<html lang="en">
 
-<hr />
+<head>
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'none'; img-src *; style-src 'self'; script-src 'self';">
+  <link rel="stylesheet"
+    href="file://{{style}}" />
+</head>
 
-<h3>Development dependencies</h3>
-{{#each devDependencies as |version name|}}
-<li class="dependency">{{name}}
-  <span class="version">{{version}}</span>
-</li>
-{{/each}}
+<body>
+
+
+  <h3>Dependencies</h3>
+  {{#each package.dependencies as |version name|}}
+  <li class="dependency">{{name}}
+    <span class="version"
+      onclick="execute('updateDependency')">{{version}}</span>
+  </li>
+  {{/each}}
+
+  <hr />
+
+  <h3>Development dependencies</h3>
+  {{#each package.devDependencies as |version name|}}
+  <li class="dependency">{{name}}
+    <span class="version">{{version}}</span>
+  </li>
+  {{/each}}
+
+</body>
+
+</html>
