@@ -2,20 +2,19 @@
 <html lang="en">
 
 <head>
+  <base href="">
   <meta http-equiv="Content-Security-Policy"
-    content="default-src 'none'; img-src *; style-src 'self'; script-src 'self';">
+    content="default-src 'none'; img-src *; style-src 'self'; script-src 'nonce-{{nonce}}';">
   <link rel="stylesheet"
     href="file://{{style}}" />
 </head>
 
 <body>
 
-
   <h3>Dependencies</h3>
   {{#each package.dependencies as |version name|}}
   <li class="dependency">{{name}}
-    <span class="version"
-      onclick="execute('updateDependency')">{{version}}</span>
+    <span class="version">{{version}}</span>
   </li>
   {{/each}}
 
@@ -27,6 +26,10 @@
     <span class="version">{{version}}</span>
   </li>
   {{/each}}
+
+  <script async
+    src="file://{{script}}"
+    nonce="{{nonce}}"></script>
 
 </body>
 

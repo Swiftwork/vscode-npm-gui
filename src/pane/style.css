@@ -9,4 +9,5 @@
   color: rgba(0, 0, 0, 0.8);
   background: palevioletred;
   border-radius: 3px;
+  cursor: pointer;
 }

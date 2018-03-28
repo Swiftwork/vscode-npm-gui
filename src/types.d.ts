@@ -1,6 +1,11 @@
+declare module '*.mjs' {
+  const path: string;
+  export = path;
+}
+
 declare module '*.css' {
-  const style: string;
-  export = style;
+  const path: string;
+  export = path;
 }
 
 declare module '*.hbs' {

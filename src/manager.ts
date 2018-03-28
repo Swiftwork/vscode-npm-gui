@@ -4,7 +4,7 @@ import * as vscode from 'vscode';
 
 import { SCHEME } from './extension';
 
-import * as Script from './pane/script.js';
+import * as Script from './pane/script.mjs';
 import * as Style from './pane/style.css';
 import * as View from './pane/view.hbs';
 
@@ -12,6 +12,7 @@ export class Manager implements vscode.TextDocumentContentProvider {
 
   private _onDidChange = new vscode.EventEmitter<vscode.Uri>();
   private _singleManagerSourceUri: vscode.Uri;
+  private _nonce = new Date().getTime() + '' + new Date().getMilliseconds();
 
   constructor(
     private context: vscode.ExtensionContext,
@@ -38,11 +39,15 @@ export class Manager implements vscode.TextDocumentContentProvider {
       }).catch((err) => {
         console.error(err);
       });
-      return View({
+
+      const view = View({
         script: this.context.asAbsolutePath(Script),
         style: this.context.asAbsolutePath(Style),
+        nonce: this._nonce,
         package: metadata,
       });
+      console.log(view);
+      return view;
     });
   }
 

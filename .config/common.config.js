@@ -64,9 +64,9 @@ module.exports = {
         ],
       },
       {
-        test: /\.(js|css)$/,
+        test: /\.(mjs|css)$/,
         include: [path.join(SOURCE_DIR, 'pane')],
-        loader: 'file-loader',
+        use: 'file-loader',
         type: 'javascript/auto',
       },
     ],
