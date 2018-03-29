@@ -14,6 +14,7 @@ export class Commands {
   /* OPEN MANAGER PANE */
 
   public openManager(uri?: vscode.Uri) {
+    console.log('open');
     let resource = uri;
     if (!(resource instanceof vscode.Uri)) {
       if (vscode.window.activeTextEditor) {

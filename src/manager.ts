@@ -1,9 +1,10 @@
 
-import * as ncu from 'npm-check-updates';
 import * as vscode from 'vscode';
 
 import { SCHEME } from './extension';
 
+import { Observable } from 'rxjs/Observable';
+import { IDependencies } from './interfaces';
 import * as Script from './pane/script.mjs';
 import * as Style from './pane/style.css';
 import * as View from './pane/view.hbs';
@@ -16,13 +17,14 @@ export class Manager implements vscode.TextDocumentContentProvider {
 
   constructor(
     private context: vscode.ExtensionContext,
+    private updates: Observable<IDependencies>,
   ) {
   }
 
   public provideTextDocumentContent(managerUri: vscode.Uri): string | Thenable<string> {
+    console.log('provide');
     const sourceUri = this._singleManagerSourceUri;
 
-    // console.log('open manager for source: ' + sourceUri.toString())
     let initialLine: number;
     const editor = vscode.window.activeTextEditor;
     if (editor && editor.document.uri.fsPath === sourceUri.fsPath) {
@@ -32,30 +34,25 @@ export class Manager implements vscode.TextDocumentContentProvider {
     return vscode.workspace.openTextDocument(sourceUri).then(document => {
       const contents = document.getText();
       const metadata = JSON.parse(contents);
-      ncu.run({
-        packageData: contents,
-      }).then((upgraded) => {
-        console.log(upgraded);
-      }).catch((err) => {
-        console.error(err);
-      });
 
       const view = View({
+        base: document.uri.with({ scheme: SCHEME }).toString(true),
+        nonce: this._nonce,
         script: this.context.asAbsolutePath(Script),
         style: this.context.asAbsolutePath(Style),
-        nonce: this._nonce,
         package: metadata,
       });
-      console.log(view);
       return view;
     });
   }
 
   get onDidChange(): vscode.Event<vscode.Uri> {
+    console.log('change');
     return this._onDidChange.event;
   }
 
   public update(uri: vscode.Uri) {
+    console.log('update');
     this._onDidChange.fire(uri);
   }
 

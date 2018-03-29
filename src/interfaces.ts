@@ -5,4 +5,10 @@ export enum DependencyType {
 export interface IDependency {
   name: string,
   version: string,
+  latest: string,
+  type: DependencyType,
+}
+
+export interface IDependencies {
+  [name: string]: string,
 }
