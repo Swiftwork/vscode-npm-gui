@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 
-import { SCHEME } from './extension';
+import { checkUpdates, SCHEME } from './extension';
 import { DependencyType } from './interfaces';
 import { Manager } from './manager';
 
@@ -14,13 +14,14 @@ export class Commands {
   /* OPEN MANAGER PANE */
 
   public openManager(uri?: vscode.Uri) {
-    console.log('open');
+    console.log('open', uri);
     let resource = uri;
     if (!(resource instanceof vscode.Uri)) {
       if (vscode.window.activeTextEditor) {
         resource = vscode.window.activeTextEditor.document.uri;
       }
     }
+    checkUpdates(resource.fsPath);
     const managerUri = this.manager.getManagerUri(resource);
     return vscode.commands.executeCommand(
       'vscode.previewHtml',

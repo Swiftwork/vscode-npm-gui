@@ -1,7 +1,7 @@
 
 import * as vscode from 'vscode';
 
-import { SCHEME } from './extension';
+import { checkUpdates, SCHEME } from './extension';
 
 import { Observable } from 'rxjs/Observable';
 import { IDependencies } from './interfaces';
@@ -19,10 +19,12 @@ export class Manager implements vscode.TextDocumentContentProvider {
     private context: vscode.ExtensionContext,
     private updates: Observable<IDependencies>,
   ) {
+    this.updates.subscribe((updates) => {
+    });
   }
 
   public provideTextDocumentContent(managerUri: vscode.Uri): string | Thenable<string> {
-    console.log('provide');
+    console.log('provide', managerUri);
     const sourceUri = this._singleManagerSourceUri;
 
     let initialLine: number;
@@ -53,6 +55,7 @@ export class Manager implements vscode.TextDocumentContentProvider {
 
   public update(uri: vscode.Uri) {
     console.log('update');
+    checkUpdates(this._singleManagerSourceUri.fsPath);
     this._onDidChange.fire(uri);
   }
 

@@ -12,12 +12,13 @@ import { Manager } from './manager';
 
 export const SCHEME = 'npm-gui';
 
+const _updates = new BehaviorSubject<IDependencies>(null);
+const updates = _updates.asObservable();
+
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
   console.log('activate');
-  const _updates = new BehaviorSubject<IDependencies>(null);
-  const updates = _updates.asObservable();
 
   // Create and register a new manager content provider
   const manager = new Manager(context, updates);
@@ -35,10 +36,13 @@ export function activate(context: vscode.ExtensionContext) {
   });
 }
 
-function checkUpdates(contents?: string): Promise<IDependencies> {
+export function checkUpdates(path: string): Promise<IDependencies> {
   return ncu.run({
-    packageFile: !contents ? 'package.json' : undefined,
-    packageData: contents ? contents : undefined,
+    packageFile: path,
+  }).then((updates) => {
+    _updates.next(updates);
+  }).catch((err) => {
+    console.warn('Failed to find updates', err);
   });
 }
 
