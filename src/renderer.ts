@@ -17,6 +17,7 @@ export class Renderer implements vscode.TextDocumentContentProvider {
   private _nonce = new Date().getTime() + '' + new Date().getMilliseconds();
 
   private _dependencies: Map<string, IDependency>;
+  private _uri: vscode.Uri;
 
   constructor(
     private context: vscode.ExtensionContext,
@@ -24,28 +25,28 @@ export class Renderer implements vscode.TextDocumentContentProvider {
   ) {
     dependencies.map.subscribe((dependencies) => {
       if (!dependencies) return;
+      console.log(dependencies);
       this._dependencies = dependencies;
-      const editor = vscode.window.activeTextEditor;
-      const document = editor.document;
-      const uri = document.uri.with({ scheme: SCHEME });
-      this.update(uri);
+      this.update(this._uri);
     });
   }
 
   public provideTextDocumentContent(uri: vscode.Uri): string | Thenable<string> {
     console.log('provide', uri);
+    this._uri = uri;
     /*return vscode.workspace.openTextDocument(uri.with({
       scheme: 'file',
     })).then(document => {
       const contents = document.getText();
       const metadata = JSON.parse(contents);
       */
+    const dependencies = this._dependencies ? Array.from(this._dependencies.values()) : [];
     const view = View({
       base: uri.toString(true),
       nonce: this._nonce,
       script: this.context.asAbsolutePath(Script),
       style: this.context.asAbsolutePath(Style),
-      dependencies: Array.from(this._dependencies.values()),
+      dependencies: dependencies,
     });
     return view;
     //});

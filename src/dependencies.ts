@@ -15,42 +15,22 @@ export class Dependencies {
 
   public checkDependencies(contents: string) {
     const metadata = JSON.parse(contents);
-    // Mock
-    this.map$.next(this.formatDependencies(metadata, {
-      'npm-check-updates': '^3.14.1',
-      'vscode': '^1.1.16',
-      '@types/mocha': '^2.5.48',
-      'css-loader': '^1.28.11',
-      'handlebars-loader': '^1.71.0',
-      'thread-loader': '^1.1.6',
-      'tslint': '^5.9.2',
-      'typescript': '^2.8.2',
-      'webpack-cli': '^2.0.14',
-    }));
-    /*
     ncu.run({
       packageData: contents,
     }).then((updates) => {
+      console.log(updates);
       this.map$.next(this.formatDependencies(metadata, updates));
-    }).catch((err) => {
-      console.warn(`Failed to fetch updates: ${err}`);
+    }).catch((err, err2) => {
+      console.warn(err);
     });
-    */
   }
 
   public formatDependencies(metadata: { [key: string]: any }, updates: IDependencies) {
     const map = new Map<string, IDependency>();
-    const peer = metadata.peerDependencies;
     const prod = metadata.dependencies;
     const dev = metadata.devDependencies;
-    for (const name in peer) {
-      map.set(name, {
-        name: name,
-        version: peer[name],
-        latest: updates[name] || peer[name],
-        type: DependencyType.PEER,
-      });
-    }
+    const peer = metadata.peerDependencies;
+    const opt = metadata.optionalDependencies;
     for (const name in prod) {
       map.set(name, {
         name: name,
@@ -65,6 +45,22 @@ export class Dependencies {
         version: dev[name],
         latest: updates[name] || dev[name],
         type: DependencyType.DEVELOPMENT,
+      });
+    }
+    for (const name in peer) {
+      map.set(name, {
+        name: name,
+        version: peer[name],
+        latest: updates[name] || peer[name],
+        type: DependencyType.PEER,
+      });
+    }
+    for (const name in opt) {
+      map.set(name, {
+        name: name,
+        version: opt[name],
+        latest: updates[name] || opt[name],
+        type: DependencyType.OPTIONAL,
       });
     }
     return map;

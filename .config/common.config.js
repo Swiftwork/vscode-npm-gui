@@ -61,7 +61,9 @@ module.exports = {
         use: [
           {
             loader: 'handlebars-loader',
-            // options: { inlineRequires: /a^/ } // Match nothing
+            options: {
+              helperDirs: path.join(SOURCE_DIR, 'pane', 'helpers'),
+            }
           },
         ],
       },

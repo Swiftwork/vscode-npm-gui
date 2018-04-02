@@ -1,32 +1,131 @@
+:root {
+  /* TYPES */
+  --c_prod: #aa777a;
+  --c_dev: #68466d;
+  --c_peer: #454a61;
+  --c_opt: #3d5f57;
+  /* VERSIONS */
+  --c_old: #f3634f;
+  --c_current: #aee239;
+  --c_latest: #40c0cb;
+  /* VERSIONS NEW */
+  --c_old: #f19368;
+  --c_current: #c2ec5f;
+  --c_latest: #61d6b9;
+}
+
 .dependencies {
   width: 100%;
 }
 
-.dependency:nth-child(2n+1){
-  background-color: rgba(0,0,0,0.2);
+.dependency:nth-child(2n+1) {
+  background-color: rgba(0, 0, 0, 0.2);
 }
 
 .dependency td {
   padding: 0.5em;
 }
 
-.version {
-  width: 1px;
+/* LEGEND */
+
+.legend-caption {
   text-align: right;
+  margin: 2em 0 1em;
 }
 
-.tag {
+.legend {
+  margin-right: 1em;
+}
+
+.legend::before {
+  content: '\2B24';
+  margin-right: 0.5em;
+}
+
+.legend.current::before {
+  color: var(--c_current);
+}
+
+.legend.old::before {
+  color: var(--c_old);
+}
+
+.legend.latest::before {
+  color: var(--c_latest);
+}
+
+/* TAG STYLE */
+
+.type,
+.version {
   display: inline-block;
-  padding: 0.25em 0.5em;
+  padding: 0.25em;
   text-align: center;
-  width: 128px;
-  color: rgba(0, 0, 0, 0.8);
+  text-transform: uppercase;
   font-weight: bold;
-  cursor: pointer;
-  background-color: palevioletred;
   border-radius: 3px;
+  cursor: pointer;
 }
 
-.tag.latest {
-  background-color: palegoldenrod;
+/* TYPES */
+
+.type-column {
+  width: 1px;
+}
+
+.type {
+  width: 3.2em;
+  font-size: 0.875em;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.type.prod {
+  background-color: var(--c_prod);
+}
+
+.type.dev {
+  background-color: var(--c_dev);
+}
+
+.type.peer {
+  background-color: var(--c_peer);
+}
+
+.type.opt {
+  background-color: var(--c_opt);
+}
+
+/* NAME */
+
+.name {
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* VERSIONS */
+
+.version-column {
+  width: 1px;
+  white-space: nowrap;
+  text-align: left;
+}
+
+.version {
+  width: 4em;
+  overflow: hidden;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.version.current {
+  background-color: var(--c_current);
+}
+
+.version.old {
+  background-color: var(--c_old);
+}
+
+.version.latest {
+  background-color: var(--c_latest);
 }

@@ -26,9 +26,9 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(...commands.list);
   context.subscriptions.push(rendererRegistration);
 
-  vscode.workspace.onDidChangeTextDocument((event: vscode.TextDocumentChangeEvent) => {
-    if (isPackageJson(event.document)) {
-      renderer.update(event.document.uri.with({ scheme: SCHEME }));
+  vscode.workspace.onDidSaveTextDocument((document: vscode.TextDocument) => {
+    if (isPackageJson(document)) {
+      dependencies.checkDependencies(document.getText());
     }
   });
 }

@@ -1,5 +1,5 @@
 export enum DependencyType {
-  PRODUCTION, DEVELOPMENT, PEER,
+  PRODUCTION, DEVELOPMENT, PEER, OPTIONAL,
 }
 
 export interface IDependency {

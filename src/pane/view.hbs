@@ -12,9 +12,12 @@
 </head>
 
 <body>
-
-  <h3>Dependencies</h3>
   <table class="dependencies">
+    <caption class="legend-caption">
+      <span class="legend old">Outdated</span>
+      <span class="legend current">Up-to-date</span>
+      <span class="legend latest">Latest</span>
+    </caption>
     <thead>
       <tr>
         <th></th>
@@ -24,14 +27,23 @@
       </tr>
     </thead>
     {{#each dependencies}}
-    <tr class="dependency">
-      <td class="type {{this.type}}">{{this.type}}</td>
-      <td>{{this.name}}</td>
-      <td class="version">
-        <span class="tag">{{this.version}}</span>
+    <tr class="dependency"
+      data-dependency="{{this}}">
+      <td class="type-column">
+        <span class="type {{lowercase (dep-type type)}}"
+          title="Click to switch from {{dep-type type true}} to {{dep-type type true}}">{{dep-type type}}</span>
       </td>
-      <td class="version">
-        <span class="tag latest">{{this.version}}</span>
+      <td class="name">{{name}}</td>
+      <td class="version-column">
+        {{#if (dep-latest this)}}
+        <span class="version current"
+          title="{{version}}">{{version}}</span>
+        {{else}}
+        <span class="version old"
+          title="{{version}}">{{version}}</span>
+        <span class="version latest"
+          title="{{version}}">{{latest}}</span>
+        {{/if}}
       </td>
     </tr>
     {{/each}}
