@@ -1,13 +1,32 @@
-.dependency {
-  padding: 0.25em 0;
+.dependencies {
+  width: 100%;
+}
+
+.dependency:nth-child(2n+1){
+  background-color: rgba(0,0,0,0.2);
+}
+
+.dependency td {
+  padding: 0.5em;
 }
 
 .version {
-  padding: 0 0.5em;
-  float: right;
-  font-weight: bold;
+  width: 1px;
+  text-align: right;
+}
+
+.tag {
+  display: inline-block;
+  padding: 0.25em 0.5em;
+  text-align: center;
+  width: 128px;
   color: rgba(0, 0, 0, 0.8);
-  background: palevioletred;
-  border-radius: 3px;
+  font-weight: bold;
   cursor: pointer;
+  background-color: palevioletred;
+  border-radius: 3px;
+}
+
+.tag.latest {
+  background-color: palegoldenrod;
 }

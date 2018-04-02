@@ -2,7 +2,6 @@ const path = require('path');
 
 /* PLUGINS */
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-const { SourceMapDevToolPlugin } = require('webpack');
 
 /* CONSTANTS */
 const CPUS = require('os').cpus().length;
@@ -16,6 +15,7 @@ module.exports = {
 
   output: {
     publicPath: 'dist/',
+    devtoolModuleFilenameTemplate: '[absolute-resource-path]',
     libraryTarget: 'commonjs2',
   },
 
@@ -31,6 +31,8 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.ts'],
   },
+
+  target: 'node',
 
   module: {
     rules: [
@@ -86,8 +88,8 @@ module.exports = {
         compiler.hooks.done.tap('VSCodeTask', end);
         compiler.hooks.invalid.tap('VSCodeTask', end);
       },
-    }
+    },
   ],
 
-  devtool: 'source-map',
+  devtool: 'cheap-module-source-map',
 };

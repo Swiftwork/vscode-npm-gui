@@ -1,36 +1,34 @@
 import * as vscode from 'vscode';
 
-import { checkUpdates, SCHEME } from './extension';
+import { Dependencies } from './dependencies';
+import { SCHEME } from './extension';
 import { DependencyType } from './interfaces';
-import { Manager } from './manager';
 
 export class Commands {
 
   constructor(
-    private manager: Manager,
+    private manager: Dependencies,
   ) {
   }
 
   /* OPEN MANAGER PANE */
 
-  public openManager(uri?: vscode.Uri) {
+  public openManager() {
+    const editor = vscode.window.activeTextEditor;
+    const document = editor.document;
+    const uri = document.uri;
     console.log('open', uri);
-    let resource = uri;
-    if (!(resource instanceof vscode.Uri)) {
-      if (vscode.window.activeTextEditor) {
-        resource = vscode.window.activeTextEditor.document.uri;
-      }
-    }
-    checkUpdates(resource.fsPath);
-    const managerUri = this.manager.getManagerUri(resource);
-    return vscode.commands.executeCommand(
-      'vscode.previewHtml',
-      managerUri,
-      vscode.ViewColumn.Two,
-      'NPM GUI Manager',
-    ).then((success) => {
-    }, (reason) => {
-      vscode.window.showErrorMessage(reason);
+    vscode.workspace.openTextDocument(uri).then(document => {
+      this.manager.checkDependencies(document.getText());
+      return vscode.commands.executeCommand(
+        'vscode.previewHtml',
+        uri.with({ scheme: SCHEME }),
+        vscode.ViewColumn.Two,
+        'NPM GUI Manager',
+      ).then((success) => {
+      }, (reason) => {
+        vscode.window.showErrorMessage(reason);
+      });
     });
   }
 

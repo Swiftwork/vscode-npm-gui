@@ -28,8 +28,8 @@
   },
   "scripts": {
     "vscode:prepublish": "npm run compile:dist",
-    "compile": "rimraf dist && webpack --config .config/common.config.js --mode development",
-    "compile:dist": "rimraf dist && webpack --config .config/common.config.js --mode production",
+    "compile": "rimraf dist/* && webpack --config .config/common.config.js --mode development",
+    "compile:dist": "rimraf dist/* && webpack --config .config/common.config.js --mode production",
     "watch": "webpack --config .config/common.config.js --mode development --watch",
     "postinstall": "node ./node_modules/vscode/bin/install",
     "test": "npm run compile && node ./node_modules/vscode/bin/test"

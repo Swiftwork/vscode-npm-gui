@@ -14,20 +14,28 @@
 <body>
 
   <h3>Dependencies</h3>
-  {{#each package.dependencies as |version name|}}
-  <li class="dependency">{{name}}
-    <span class="version">{{version}}</span>
-  </li>
-  {{/each}}
-
-  <hr />
-
-  <h3>Development dependencies</h3>
-  {{#each package.devDependencies as |version name|}}
-  <li class="dependency">{{name}}
-    <span class="version">{{version}}</span>
-  </li>
-  {{/each}}
+  <table class="dependencies">
+    <thead>
+      <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    {{#each dependencies}}
+    <tr class="dependency">
+      <td class="type {{this.type}}">{{this.type}}</td>
+      <td>{{this.name}}</td>
+      <td class="version">
+        <span class="tag">{{this.version}}</span>
+      </td>
+      <td class="version">
+        <span class="tag latest">{{this.version}}</span>
+      </td>
+    </tr>
+    {{/each}}
+  </table>
 
   <script async
     src="file://{{script}}"
