@@ -2,11 +2,14 @@ const path = require('path');
 
 /* PLUGINS */
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 /* CONSTANTS */
 const CPUS = require('os').cpus().length;
 const SOURCE_DIR = path.resolve(process.cwd(), 'src');
 const CONFIG_DIR = path.resolve(process.cwd(), '.config');
+const extractJS = new ExtractTextPlugin('assets/pane.js');
+const extractCSS = new ExtractTextPlugin('assets/pane.css');
 
 module.exports = {
   context: SOURCE_DIR,
@@ -68,10 +71,15 @@ module.exports = {
         ],
       },
       {
-        test: /\.(mjs|css)$/,
+        test: /\.js$/,
         include: [path.join(SOURCE_DIR, 'pane')],
-        use: 'file-loader',
-        type: 'javascript/auto',
+        exclude: [path.join(SOURCE_DIR, 'pane', 'helpers')],
+        use: extractJS.extract(['raw-loader']),
+      },
+      {
+        test: /\.css$/,
+        include: [path.join(SOURCE_DIR, 'pane')],
+        use: extractCSS.extract(['css-loader']),
       },
     ],
   },
@@ -82,6 +90,8 @@ module.exports = {
       tslint: path.join(CONFIG_DIR, 'tslint.config.js'),
       checkSyntacticErrors: true,
     }),
+    extractJS,
+    extractCSS,
     {
       apply: function (compiler) {
         const start = () => process.stdout.write(`${new Date().toLocaleTimeString('en-US')} - File change detected. Starting incremental compilation...\n`);

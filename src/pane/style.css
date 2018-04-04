@@ -1,17 +1,25 @@
 :root {
   /* TYPES */
-  --c_prod: #aa777a;
+  --c_prod: #9c595e;
   --c_dev: #68466d;
-  --c_peer: #454a61;
-  --c_opt: #3d5f57;
+  --c_peer: #394f7a;
+  --c_opt: #3b695f;
   /* VERSIONS */
   --c_old: #f3634f;
   --c_current: #aee239;
   --c_latest: #40c0cb;
   /* VERSIONS NEW */
-  --c_old: #f19368;
+  --c_old: #e7934e;
   --c_current: #c2ec5f;
-  --c_latest: #61d6b9;
+  --c_latest: #61d6cc;
+}
+
+body a {
+  display: inline-block;
+  color: var(--color);
+  padding: 0.25em 0.5em;
+  border: 1px solid var(--color);
+  border-radius: 3px;
 }
 
 .dependencies {
@@ -22,15 +30,35 @@
   background-color: rgba(0, 0, 0, 0.2);
 }
 
+.dependency:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
 .dependency td {
   padding: 0.5em;
 }
 
 /* LEGEND */
 
-.legend-caption {
-  text-align: right;
-  margin: 2em 0 1em;
+.caption {
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 1em 20px;
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--background-color);
+  box-shadow: 0 6px 6px -6px black;
+}
+
+.caption menu {
+  margin: 0;
+  padding: 0;
+  float: left;
+}
+
+.caption legend {
+  float: right;
 }
 
 .legend {

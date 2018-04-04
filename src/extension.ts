@@ -10,6 +10,10 @@ import { Dependencies } from './dependencies';
 import { IDependencies } from './interfaces';
 import { Renderer } from './renderer';
 
+/* Assets included in bundle */
+import './pane/script.js';
+import './pane/style.css';
+
 export const SCHEME = 'npm-gui';
 
 // this method is called when your extension is activated
@@ -28,7 +32,8 @@ export function activate(context: vscode.ExtensionContext) {
 
   vscode.workspace.onDidSaveTextDocument((document: vscode.TextDocument) => {
     if (isPackageJson(document)) {
-      dependencies.checkDependencies(document.getText());
+      //dependencies.checkDependencies(document.getText());
+      renderer.update(document.uri);
     }
   });
 }

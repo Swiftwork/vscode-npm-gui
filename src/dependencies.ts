@@ -2,24 +2,18 @@ import * as fs from 'fs';
 import * as ncu from 'npm-check-updates';
 import * as path from 'path';
 
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-
 import { DependencyType, IDependencies, IDependency } from './interfaces';
 
 export class Dependencies {
-
-  protected map$ = new BehaviorSubject<Map<string, IDependency>>(null);
-  public map = this.map$.asObservable();
 
   constructor() { }
 
   public checkDependencies(contents: string) {
     const metadata = JSON.parse(contents);
-    ncu.run({
+    return ncu.run({
       packageData: contents,
     }).then((updates) => {
-      console.log(updates);
-      this.map$.next(this.formatDependencies(metadata, updates));
+      return this.formatDependencies(metadata, updates);
     }).catch((err, err2) => {
       console.warn(err);
     });

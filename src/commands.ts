@@ -7,7 +7,7 @@ import { DependencyType } from './interfaces';
 export class Commands {
 
   constructor(
-    private manager: Dependencies,
+    private dependencies: Dependencies,
   ) {
   }
 
@@ -19,15 +19,16 @@ export class Commands {
     const uri = document.uri;
     console.log('open', uri);
     vscode.workspace.openTextDocument(uri).then(document => {
-      this.manager.checkDependencies(document.getText());
-      return vscode.commands.executeCommand(
-        'vscode.previewHtml',
-        uri.with({ scheme: SCHEME }),
-        vscode.ViewColumn.Two,
-        'NPM GUI Manager',
-      ).then((success) => {
-      }, (reason) => {
-        vscode.window.showErrorMessage(reason);
+      return this.dependencies.checkDependencies(document.getText()).then(() => {
+        return vscode.commands.executeCommand(
+          'vscode.previewHtml',
+          uri.with({ scheme: SCHEME }),
+          vscode.ViewColumn.Two,
+          'NPM GUI Manager',
+        ).then((success) => {
+        }, (reason) => {
+          vscode.window.showErrorMessage(reason);
+        });
       });
     });
   }

@@ -35,13 +35,13 @@
     "test": "npm run compile && node ./node_modules/vscode/bin/test"
   },
   "dependencies": {
-    "npm-check-updates": "^2.14.1",
+    "npm-check-updates": "^2.14.0",
     "rxjs": "^5.4.x",
     "vscode": "1.1.13",
     "webpack-node-externals": "^1.6.0"
   },
   "devDependencies": {
-    "thread-loader": "^1.1.4",
+    "thread-loader": "^1.1.5",
     "tslint-config-standard": "^7.0.0",
     "typescript": "~2.7.2",
     "webpack": "^4.2.0",

@@ -8,15 +8,20 @@
   <meta http-equiv="Content-Security-Policy"
     content="default-src 'none'; img-src *; style-src 'self'; script-src 'nonce-{{nonce}}';">
   <link rel="stylesheet"
-    href="file://{{style}}" />
+    href="file://{{css}}" />
 </head>
 
 <body>
   <table class="dependencies">
-    <caption class="legend-caption">
-      <span class="legend old">Outdated</span>
-      <span class="legend current">Up-to-date</span>
-      <span class="legend latest">Latest</span>
+    <caption class="caption">
+      <menu>
+        <a role="button">Install Updated</a>
+      </menu>
+      <legend>
+        <span class="legend current">Installed</span>
+        <span class="legend old">Outdated</span>
+        <span class="legend latest">Latest</span>
+      </legend>
     </caption>
     <thead>
       <tr>
@@ -50,7 +55,7 @@
   </table>
 
   <script async
-    src="file://{{script}}"
+    src="file://{{javascript}}"
     nonce="{{nonce}}"></script>
 
 </body>
