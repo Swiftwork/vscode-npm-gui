@@ -33,10 +33,11 @@
     </thead>
     {{#each dependencies}}
     <tr class="dependency"
+      tabindex="0"
       data-dependency="{{this}}">
       <td class="type-column">
         <span class="type {{lowercase (dep-type type)}}"
-          title="Click to switch from {{dep-type type true}} to {{dep-type type true}}">{{dep-type type}}</span>
+          title="Click to switch from {{dep-type type true}}">{{dep-type type}}</span>
       </td>
       <td class="name">{{name}}</td>
       <td class="version-column">
@@ -49,6 +50,18 @@
         <span class="version latest"
           title="{{version}}">{{latest}}</span>
         {{/if}}
+      </td>
+    </tr>
+    <tr class="dependency-extra">
+      <td colspan="4">
+        <span class="type prod"
+          title="Click to switch to production dependency">prod</span>
+        <span class="type dev"
+          title="Click to switch to development dependency">dev</span>
+        <span class="type peer"
+          title="Click to switch to peer dependency">peer</span>
+        <span class="type opt"
+          title="Click to switch to optional dependency">opt</span>
       </td>
     </tr>
     {{/each}}
