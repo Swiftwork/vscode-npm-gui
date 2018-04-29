@@ -2,7 +2,8 @@
   "name": "npm-gui",
   "displayName": "NPM GUI",
   "description": "Visual node package manager",
-  "version": "0.0.1",
+  "version": "1.0.0",
+  "icon": "icon.png",
   "publisher": "swiftwork",
   "engines": {
     "vscode": "^1.10.0"
@@ -18,13 +19,28 @@
     "commands": [
       {
         "command": "npm-gui.openManager",
-        "title": "NPM GUI: Open manager pane"
+        "title": "Open manager pane",
+        "category": "NPM GUI",
+        "icon": {
+          "light": "./icons/preview-dark.svg",
+          "dark": "./icons/preview-light.svg"
+        }
       },
       {
         "command": "npm-gui.updateDependency",
-        "title": "NPM GUI: Update dependency"
+        "title": "Update dependency",
+        "category": "NPM GUI"
       }
-    ]
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "npm-gui.openManager",
+          "when": "resourceIsFile && resourceFilename == package.json",
+          "group": "navigation"
+        }
+      ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile:dist",
