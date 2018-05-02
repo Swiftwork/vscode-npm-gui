@@ -2,9 +2,8 @@
 import { Observable } from 'rxjs/Observable';
 import * as vscode from 'vscode';
 
-import { Dependencies } from './dependencies';
+import { Dependencies, IDependency } from './dependencies';
 import { SCHEME } from './extension';
-import { IDependencies, IDependency } from './interfaces';
 
 import * as View from './pane/view.hbs';
 
@@ -14,37 +13,26 @@ export class Renderer implements vscode.TextDocumentContentProvider {
   private _singleManagerSourceUri: vscode.Uri;
   private _nonce = new Date().getTime() + '' + new Date().getMilliseconds();
 
-  private _cached = new Map<string, { text: string, deps: IDependency[] }>();
-
   constructor(
     private context: vscode.ExtensionContext,
     private dependencies: Dependencies,
   ) { }
 
   public provideTextDocumentContent(uri: vscode.Uri): string | Thenable<string> {
-    const id = uri.toString();
-    console.log('provide', id);
+    console.log('provide');
     return vscode.workspace.openTextDocument(uri.with({
       scheme: 'file',
     })).then(document => {
       const contents = document.getText();
-      if (!this._cached.get(id) || contents !== this._cached.get(id).text) {
-        return this.dependencies.checkDependencies(contents).then((dependencies) => {
-          console.log('fetch');
-          dependencies = Array.from(dependencies.values());
-          this._cached.set(id, { text: contents, deps: dependencies });
-          return this.render(uri, dependencies);
-        });
-      } else {
-        console.log('cached');
-        return this.render(uri, this._cached.get(id).deps);
-      }
+      return this.dependencies.checkDependencies(uri, contents).then((dependencies) => {
+        return this.render(uri, Array.from(dependencies.values()));
+      });
     });
   }
 
   private render(uri: vscode.Uri, dependencies: IDependency[]) {
     const view = View({
-      /* Functionallity */
+      /* Functionality */
       base: uri.toString(true),
       nonce: this._nonce,
       javascript: this.context.asAbsolutePath('dist/assets/pane.js'),

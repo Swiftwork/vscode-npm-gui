@@ -1,8 +1,7 @@
 import * as vscode from 'vscode';
 
-import { Dependencies } from './dependencies';
+import { Dependencies, DependencyType } from './dependencies';
 import { SCHEME } from './extension';
-import { DependencyType } from './interfaces';
 
 export class Commands {
 
@@ -17,12 +16,13 @@ export class Commands {
     const editor = vscode.window.activeTextEditor;
     const document = editor.document;
     const uri = document.uri;
+    const schemedUri = uri.with({ scheme: SCHEME });
     console.log('open', uri);
     vscode.workspace.openTextDocument(uri).then(document => {
-      return this.dependencies.checkDependencies(document.getText()).then(() => {
+      return this.dependencies.checkDependencies(schemedUri, document.getText()).then(() => {
         return vscode.commands.executeCommand(
           'vscode.previewHtml',
-          uri.with({ scheme: SCHEME }),
+          schemedUri,
           vscode.ViewColumn.Two,
           'NPM GUI Manager',
         ).then((success) => {
@@ -37,8 +37,22 @@ export class Commands {
   // DEPENDENCIES
   //------------------------------------------------------------------------------------
 
-  public updateDependency() {
-    console.log('update');
+  public updateDependency(dependency) {
+    const editor = vscode.window.activeTextEditor;
+    console.log(vscode.workspace.textDocuments);
+    const document = editor.document;
+    const uri = document.uri;
+    const schemedUri = uri.with({ scheme: SCHEME });
+    const updated = this.dependencies.update(schemedUri, dependency);
+    const edit = new vscode.WorkspaceEdit();
+    const entireRange = new vscode.Range(
+      0,
+      document.lineAt(0).range.start.character,
+      document.lineCount - 1,
+      document.lineAt(document.lineCount - 1).range.end.character,
+    );
+    edit.replace(uri, entireRange, updated);
+    vscode.workspace.applyEdit(edit);
   }
 
   public updateAllDependencies() {

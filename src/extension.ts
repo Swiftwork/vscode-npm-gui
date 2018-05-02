@@ -7,7 +7,6 @@ import * as vscode from 'vscode';
 
 import { Commands } from './commands';
 import { Dependencies } from './dependencies';
-import { IDependencies } from './interfaces';
 import { Renderer } from './renderer';
 
 /* Assets included in bundle */

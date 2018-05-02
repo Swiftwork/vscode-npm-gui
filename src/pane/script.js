@@ -30,18 +30,27 @@
    */
   function eventDelegate(ev) {
     if (ev instanceof KeyboardEvent && ev.key !== 'Enter') return false;
-
-    const row = ev.target.closest('tr');
+    const target = ev.target;
+    const row = target.closest('tr');
     if (!row) return false;
+
+    // Update dependency
+    if (target.classList.contains('version') && target.classList.contains('latest')) {
+      updateDependency(row.dataset.dependency);
+      return true;
+    }
+
+    // Fall back to expand
+    const state = !(row.getAttribute('aria-expanded') === 'true');
     collapse.apply(this, rows);
-    toggleExpand(row, row.dataset.dependency);
+    if (state) expand(row);
   }
 
   /* === ACTIONS === */
 
   /**
    * Collapse all row extras
-   * @param {Element[]} rows 
+   * @param {...Element} rows the dependency rows which to collapse
    */
   function collapse(...rows) {
     rows.forEach(row => {
@@ -53,13 +62,14 @@
 
   /**
    * Expands the row revealing dependency types
-   * @param {Element} row the dependency row which to operate on
+   * @param {...Element} rows the dependency rows which to expand
    */
-  function toggleExpand(row, dependency) {
-    const extra = row.nextElementSibling;
-    const expanded = !(row.getAttribute('aria-expanded') === 'true');
-    row.setAttribute('aria-expanded', expanded);
-    extra.style.display = expanded ? 'table-row' : 'none';
+  function expand(...rows) {
+    rows.forEach(row => {
+      const extra = row.nextElementSibling;
+      row.setAttribute('aria-expanded', true);
+      extra.style.display = 'table-row';
+    });
   }
 
   /**
@@ -67,7 +77,7 @@
    * @param {object} dependency the dependency data {@link IDependency}
    */
   function updateDependency(dependency) {
-
+    execute('updateDependency', dependency);
   }
 
   /*
