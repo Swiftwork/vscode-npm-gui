@@ -18,7 +18,6 @@ export const SCHEME = 'npm-gui';
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
-  console.log('activate');
 
   // Create and register a new manager content provider
   const dependencies = new Dependencies();
@@ -30,7 +29,8 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(rendererRegistration);
 
   vscode.workspace.onDidSaveTextDocument((document: vscode.TextDocument) => {
-    if (isPackageJson(document)) {
+    console.log('[save]\t', document.uri.toString());
+    if (validFile(document)) {
       //dependencies.checkDependencies(document.getText());
       renderer.update(document.uri);
     }
@@ -45,6 +45,6 @@ export function deactivate() {
 // HELPERS
 //------------------------------------------------------------------------------------
 
-export function isPackageJson(document: vscode.TextDocument) {
+export function validFile(document: vscode.TextDocument) {
   return document.fileName.endsWith('package.json') && document.uri.scheme !== SCHEME;
 }

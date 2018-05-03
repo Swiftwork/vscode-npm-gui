@@ -4,14 +4,17 @@ import * as path from 'path';
 import * as vscode from 'vscode';
 
 export enum DependencyType {
-  PRODUCTION, DEVELOPMENT, PEER, OPTIONAL,
+  PRODUCTION = 'dependencies',
+  DEVELOPMENT = 'devDependencies',
+  PEER = 'peerDependencies',
+  OPTIONAL = 'optionalDependencies',
 }
 
 export interface IDependency {
   name: string,
   version: string,
   latest: string,
-  type: DependencyType,
+  type: string,
 }
 
 export interface IDependencies {
@@ -36,71 +39,52 @@ export class Dependencies {
     const id = uri.toString();
     const cached = this._cached[id];
     if (!cached) return null;
-    cached.data[dependency] = cached.deps.get(dependency).latest;
+    const dep = cached.deps.get(dependency);
+    dep.version = dep.latest;
+    cached.data[dep.type][dependency] = dep.version;
     cached.text = JSON.stringify(cached.data, null, 2);
     return cached.text;
   }
 
-  public checkDependencies(uri: vscode.Uri, contents: string) {
+  public async checkDependencies(uri: vscode.Uri, contents: string) {
     const id = uri.toString();
+    console.log('[check]\t', id);
     if (!this._cached[id] || contents !== this._cached[id].text) {
-      console.log(id);
+      console.log('[fetch]\t', id);
       const metadata = JSON.parse(contents);
       this._cached[id] = { text: contents, data: metadata };
-      return ncu.run({
-        packageData: contents,
-      }).then((updates) => {
-        console.log('fetch');
+      try {
+        const updates = await ncu.run({ packageData: contents });
         const dependencies = this.formatDependencies(metadata, updates);
         this._cached[id].deps = dependencies;
         return dependencies;
-      }).catch((err, err2) => {
+      } catch (err) {
         delete this._cached[id];
         console.warn(err);
-      });
+        return null;
+      }
     } else {
-      console.log('cached');
-      return Promise.resolve(this._cached[id].deps);
+      console.log('[cache]\t', id);
+      return this._cached[id].deps;
     }
   }
 
   public formatDependencies(metadata: { [key: string]: any }, updates: IDependencies) {
     const map = new Map<string, IDependency>();
-    const prod = metadata.dependencies;
-    const dev = metadata.devDependencies;
-    const peer = metadata.peerDependencies;
-    const opt = metadata.optionalDependencies;
-    for (const name in prod) {
-      map.set(name, {
-        name: name,
-        version: prod[name],
-        latest: updates[name] || prod[name],
-        type: DependencyType.PRODUCTION,
-      });
-    }
-    for (const name in dev) {
-      map.set(name, {
-        name: name,
-        version: dev[name],
-        latest: updates[name] || dev[name],
-        type: DependencyType.DEVELOPMENT,
-      });
-    }
-    for (const name in peer) {
-      map.set(name, {
-        name: name,
-        version: peer[name],
-        latest: updates[name] || peer[name],
-        type: DependencyType.PEER,
-      });
-    }
-    for (const name in opt) {
-      map.set(name, {
-        name: name,
-        version: opt[name],
-        latest: updates[name] || opt[name],
-        type: DependencyType.OPTIONAL,
-      });
+
+    for (let key in DependencyType) {
+      if (!isNaN(Number(key))) continue;
+      const type = DependencyType[key];
+      const dependencies = metadata[type];
+
+      for (const name in dependencies) {
+        map.set(name, {
+          name: name,
+          version: dependencies[name],
+          latest: updates[name] || dependencies[name],
+          type: type,
+        });
+      }
     }
     return map;
   }

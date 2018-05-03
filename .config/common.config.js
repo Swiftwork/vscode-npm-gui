@@ -23,6 +23,9 @@ module.exports = {
   },
 
   externals: {
+    'npm': {
+      commonjs2: 'npm',
+    },
     'vscode': {
       commonjs2: 'vscode',
     },

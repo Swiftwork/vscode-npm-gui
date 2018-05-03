@@ -18,16 +18,14 @@ export class Renderer implements vscode.TextDocumentContentProvider {
     private dependencies: Dependencies,
   ) { }
 
-  public provideTextDocumentContent(uri: vscode.Uri): string | Thenable<string> {
-    console.log('provide');
-    return vscode.workspace.openTextDocument(uri.with({
+  public async provideTextDocumentContent(uri: vscode.Uri) {
+    console.log('[prov]\t', uri.toString());
+    const document = await vscode.workspace.openTextDocument(uri.with({
       scheme: 'file',
-    })).then(document => {
-      const contents = document.getText();
-      return this.dependencies.checkDependencies(uri, contents).then((dependencies) => {
-        return this.render(uri, Array.from(dependencies.values()));
-      });
-    });
+    }));
+    const contents = document.getText();
+    const dependencies = await this.dependencies.checkDependencies(uri, contents);
+    return this.render(uri, Array.from(dependencies.values()));
   }
 
   private render(uri: vscode.Uri, dependencies: IDependency[]) {
@@ -44,12 +42,12 @@ export class Renderer implements vscode.TextDocumentContentProvider {
   }
 
   get onDidChange(): vscode.Event<vscode.Uri> {
-    console.log('change');
+    console.log('[change]\t');
     return this._onDidChange.event;
   }
 
   public update(uri: vscode.Uri) {
-    console.log('update', uri);
+    console.log('[fire]\t', uri.toString());
     this._onDidChange.fire(uri.with({ scheme: SCHEME }));
   }
 

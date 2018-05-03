@@ -27,6 +27,11 @@
         }
       },
       {
+        "command": "npm-gui.install",
+        "title": "Install dependencies",
+        "category": "NPM GUI"
+      },
+      {
         "command": "npm-gui.updateDependency",
         "title": "Update dependency",
         "category": "NPM GUI"
@@ -59,6 +64,7 @@
   "devDependencies": {
     "@types/mocha": "^2.2.48",
     "@types/node": "^9.4.7",
+    "@types/npm": "^2.0.29",
     "cache-loader": "^1.2.2",
     "css-loader": "^0.28.11",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
