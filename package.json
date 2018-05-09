@@ -45,6 +45,27 @@
           "group": "navigation"
         }
       ]
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "npm-gui",
+          "title": "NPM GUI",
+          "icon": "icons/test-icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "npm-gui": [
+        {
+          "id": "package-dependencies",
+          "name": "Dependencies"
+        },
+        {
+          "id": "package-outline",
+          "name": "Outline"
+        }
+      ]
     }
   },
   "scripts": {
